@@ -53,7 +53,7 @@
  *       - bearerAuth: []
  *     parameters:
  *       - name: issue_id
- *         in: header
+ *         in: query
  *         required: true
  *         schema:
  *           type: string
@@ -72,18 +72,13 @@
  *       - Comments
  *     security:
  *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               user_id:
- *                 type: string
- *                 format: uuid
- *             required:
- *               - user_id
+ *     parameters:
+ *       - name: user_id
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
  *     responses:
  *       200:
  *         description: List of comments by user
@@ -133,22 +128,19 @@
  *       - Comments
  *     security:
  *       - bearerAuth: []
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               comment_id:
- *                 type: string
- *                 format: uuid
- *               user_id:
- *                 type: string
- *                 format: uuid
- *             required:
- *               - comment_id
- *               - user_id
+ *     parameters:
+ *       - name: comment_id
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *       - name: user_id
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
  *     responses:
  *       200:
  *         description: Comment deleted successfully

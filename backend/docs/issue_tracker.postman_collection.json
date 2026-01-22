@@ -305,7 +305,7 @@
           },
           {
             "key": "authorization",
-            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIzNmQ2MzRhMy1iODc0LTRiMjktYTE2OC0xOGM1OGVmYWUzMGUiLCJpYXQiOjE3Njg5MDY0MzEsImV4cCI6MTc2ODk5MjgzMX0.PLCxk18AK6JEKYV_1DCerhIN0YyY4RKlJzR7HbxjsaM",
+            "value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2YmRjY2MxMy05ZjliLTQ1MWUtYWEwYS02OTZlNDcxMGJlYjYiLCJpYXQiOjE3NjkxMjE4NjUsImV4cCI6MTc2OTIwODI2NX0.8OaID6YOWpao0CE1a-sQqe4M_CMNUpwB-bkADkbE0Vw",
             "type": "text",
             "id": 0
           },
@@ -941,7 +941,7 @@
           }
         },
         "url": {
-          "raw": "http://localhost:5000/issue/delete",
+          "raw": "http://localhost:5000/issue/delete?issue_id=8ee898ce-526a-4806-9c69-e592b45eb986",
           "protocol": "http",
           "host": [
             "localhost"
@@ -950,6 +950,12 @@
           "path": [
             "issue",
             "delete"
+          ],
+          "query": [
+            {
+              "key": "issue_id",
+              "value": "8ee898ce-526a-4806-9c69-e592b45eb986"
+            }
           ]
         }
       },

@@ -29,6 +29,35 @@ interface CommentListComponentProps {
   issueId: string | null;
 }
 
+// Utility function to format date safely
+const formatCommentDate = (dateString: string | Date): string => {
+  try {
+    // Handle different date formats
+    let date: Date;
+    
+    if (dateString instanceof Date) {
+      date = dateString;
+    } else if (typeof dateString === 'string') {
+      // Try parsing as ISO string or timestamp
+      date = new Date(dateString);
+      
+      // If invalid, try parsing as number (Unix timestamp)
+      if (isNaN(date.getTime()) && !isNaN(Number(dateString))) {
+        date = new Date(Number(dateString));
+      }
+    } else {
+      return 'Invalid date';
+    }
+    
+    if (isNaN(date.getTime())) {
+      return 'Invalid date';
+    }
+    return date.toLocaleString();
+  } catch {
+    return 'Invalid date';
+  }
+};
+
 export default function CommentListComponent({ issueId }: CommentListComponentProps) {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedComment, setSelectedComment] = useState<Comment | null>(null);
@@ -125,7 +154,7 @@ export default function CommentListComponent({ issueId }: CommentListComponentPr
                           textAlign: isOwnComment ? 'right' : 'left',
                         }}
                       >
-                        {new Date(comment.created_at).toLocaleString()}
+                        {formatCommentDate(comment.created_at)}
                       </Typography>
                     </Paper>
 

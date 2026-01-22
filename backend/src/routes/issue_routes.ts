@@ -103,7 +103,7 @@
  *       - bearerAuth: []
  *     parameters:
  *       - name: issue_id
- *         in: header
+ *         in: query
  *         required: true
  *         schema:
  *           type: string
@@ -169,23 +169,17 @@
  *       - bearerAuth: []
  *     parameters:
  *       - name: issue_id
- *         in: header
+ *         in: query
  *         required: true
  *         schema:
  *           type: string
  *           format: uuid
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               created_by:
- *                 type: string
- *                 format: uuid
- *             required:
- *               - created_by
+ *       - name: created_by
+ *         in: query
+ *         required: true
+ *         schema:
+ *           type: string
+ *           format: uuid
  *     responses:
  *       200:
  *         description: Issue deleted successfully

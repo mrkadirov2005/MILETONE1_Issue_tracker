@@ -51,12 +51,18 @@ export const useCreateComment = () => {
 
   return useMutation({
     mutationFn: (payload: CreateCommentPayload) => createComment(payload),
-    onSuccess: (data) => {
-      // Invalidate issue comments with exact issue ID to force refetch
-      queryClient.invalidateQueries({ 
-        queryKey: [...COMMENTS_QUERY_KEY, 'issue', data.issue_id],
-        exact: false, // This will also invalidate child queries
-      });
+    onSuccess: (data, variables) => {
+      // Update the query cache with the new comment immediately (optimistic update)
+      queryClient.setQueryData(
+        [...COMMENTS_QUERY_KEY, 'issue', variables.issue_id],
+        (oldData: any) => {
+          if (!oldData) return { data: [data] };
+          return {
+            ...oldData,
+            data: [...(oldData.data || []), data],
+          };
+        }
+      );
       handleApiSuccess('Comment created successfully');
     },
     onError: (error: Error) => {

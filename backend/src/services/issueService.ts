@@ -1,7 +1,7 @@
 import type { Request } from "express";
 import { createIssueRepository, deleteIssueByIdRepository, getTotalIssuesCountRepository, getIssueByIdRepository, updateIssueByIdRepository, getAllIssuesWithLabelsRepository } from "../repositories/issueRepository.ts";
 import { getUserById } from "../repositories/userRepository.ts";
-import type { CreateIssueRequestBody, Issue } from "../utils/types.ts";
+import type { CreateIssueRequestBody } from "../utils/types.ts";
 
 export const createIssueService=async(req: Request)=>{
 // create the logic to create an issue
@@ -26,12 +26,12 @@ return isIssueCreated;
 }
 
 export const getIssueByIdService=async(req:Request)=>{
- 
+ console.log(req.query);
     // proceed with checking the issue id in params using the function of paramsValidator
     // sample token format
     // http://localhost:5000/issue/6f639b9-cd16-4647-af97-431a89f8af2e
     // extract the id
-    const issueId=req.headers["issue_id"] as never as string
+    const issueId=req.query.issue_id as never as string;
     // now get the issue from the repository
     const issueData=await getIssueByIdRepository(issueId);
     return issueData;
@@ -40,7 +40,6 @@ export const getIssueByIdService=async(req:Request)=>{
 export const updateIssueService=async(req:Request)=>{
    
     // proceed with checking the issue id in params using the function of paramsValidator
-    // validateParamFields(req, ['issue-id']);
   
     // validate the body fields for update
     // if the fields are valid
@@ -102,25 +101,27 @@ export const getAllIssuesService=async(req:Request)=>{
 
 
 export const deleteIssueService=async(req:Request)=>{
-
+console.log(req.query); 
     // proceed with checking the issue id in params using the function of paramsValidator
-    const issueId=req.headers["issue_id"] as never as string;
+    const issueId=req.query.issue_id as never as string;
+    const created_by=req.query.created_by as never as string;
     if(!issueId){
-        throw new Error("Issue ID is required in headers");
+        throw new Error("Issue ID is required in query parameters");
     }
     // if all of the user fields are provided now we can continue with deleting teh users
 
-    const { created_by } = req.body as CreateIssueRequestBody;
+   
     if(!created_by){
+        console.log("created_by is missing",created_by);
         throw new Error("User ID is required to delete the issue");
     }
     const isIssueDeleted=await deleteIssueByIdRepository(issueId,created_by);
     return isIssueDeleted;
 }
 
-export const getIssuesByLabel=async(label_id:string):Promise<Issue>=>{
-    // implement the get issues by label service here
-    // proceed with getting the issues from the repository
-    const issues=await getIssuesByLabel(label_id);
-    return issues;
-}
+// export const getIssuesByLabel=async(label_id:string):Promise<Issue>=>{
+//     // implement the get issues by label service here
+//     // proceed with getting the issues from the repository
+//     const issues=await getIssuesByLabel(label_id);
+//     return issues;
+// }

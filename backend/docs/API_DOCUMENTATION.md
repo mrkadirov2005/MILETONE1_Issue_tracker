@@ -144,10 +144,17 @@ Obtain a token by logging in via the `/auth/login` endpoint.
 
 **Description:** Retrieve a specific issue with all associated labels.
 
+**Query Parameters:**
+- `issue_id` (UUID, required): The ID of the issue to retrieve
+
+**Example Request:**
+```
+GET /issue/by_id?issue_id=660e8400-e29b-41d4-a716-446655440001
+```
+
 **Headers:**
 ```
 Authorization: Bearer <token>
-issue_id: 660e8400-e29b-41d4-a716-446655440001
 ```
 
 **Response (200 OK):**
@@ -274,17 +281,18 @@ GET /issue/all?limit=10&page=1&status=todo&priority=high&label=Bug
 
 **Description:** Delete an issue. Only the issue creator can delete it.
 
+**Query Parameters:**
+- `issue_id` (UUID, required): The ID of the issue to delete
+- `created_by` (UUID, required): The ID of the user who created the issue
+
+**Example Request:**
+```
+DELETE /issue/delete?issue_id=660e8400-e29b-41d4-a716-446655440001&created_by=550e8400-e29b-41d4-a716-446655440000
+```
+
 **Headers:**
 ```
 Authorization: Bearer <token>
-issue_id: 660e8400-e29b-41d4-a716-446655440001
-```
-
-**Request Body:**
-```json
-{
-  "created_by": "550e8400-e29b-41d4-a716-446655440000"
-}
 ```
 
 **Response (200 OK):**
@@ -536,10 +544,17 @@ issue_id: 660e8400-e29b-41d4-a716-446655440001
 
 **Description:** Retrieve all comments for a specific issue.
 
+**Query Parameters:**
+- `issue_id` (UUID, required): The ID of the issue to retrieve comments for
+
+**Example Request:**
+```
+GET /comment/issue?issue_id=660e8400-e29b-41d4-a716-446655440001
+```
+
 **Headers:**
 ```
 Authorization: Bearer <token>
-issue_id: 660e8400-e29b-41d4-a716-446655440001
 ```
 
 **Response (200 OK):**
@@ -565,11 +580,17 @@ issue_id: 660e8400-e29b-41d4-a716-446655440001
 
 **Description:** Retrieve all comments made by a specific user.
 
-**Request Body:**
-```json
-{
-  "user_id": "550e8400-e29b-41d4-a716-446655440000"
-}
+**Query Parameters:**
+- `user_id` (UUID, required): The ID of the user
+
+**Example Request:**
+```
+GET /comment/user?user_id=550e8400-e29b-41d4-a716-446655440000
+```
+
+**Headers:**
+```
+Authorization: Bearer <token>
 ```
 
 **Response (200 OK):**
@@ -622,12 +643,18 @@ issue_id: 660e8400-e29b-41d4-a716-446655440001
 
 **Description:** Delete a comment. Only the comment author can delete it.
 
-**Request Body:**
-```json
-{
-  "comment_id": "990e8400-e29b-41d4-a716-446655440004",
-  "user_id": "550e8400-e29b-41d4-a716-446655440000"
-}
+**Query Parameters:**
+- `comment_id` (UUID, required): The ID of the comment to delete
+- `user_id` (UUID, required): The ID of the user who created the comment
+
+**Example Request:**
+```
+DELETE /comment/delete?comment_id=990e8400-e29b-41d4-a716-446655440004&user_id=550e8400-e29b-41d4-a716-446655440000
+```
+
+**Headers:**
+```
+Authorization: Bearer <token>
 ```
 
 **Response (200 OK):**

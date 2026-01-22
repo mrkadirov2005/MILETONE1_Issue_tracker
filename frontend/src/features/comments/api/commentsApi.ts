@@ -48,7 +48,7 @@ export const getIssueComments = async (issueId: string): Promise<CommentsRespons
     const response = await apiClient.request({
       method: 'GET',
       url: API_ROUTES.COMMENT.GET_ISSUE_COMMENTS,
-      headers: { issue_id: issueId },
+      params: { issue_id: issueId },
     });
     return response.data;
   } catch (error) {
@@ -62,7 +62,7 @@ export const getIssueComments = async (issueId: string): Promise<CommentsRespons
 export const getUserComments = async (userId: string): Promise<CommentsResponse> => {
   try {
     const response = await apiClient.get(API_ROUTES.COMMENT.GET_USER_COMMENTS, {
-      headers: { user_id: userId },
+      params: { user_id: userId },
     });
     return response.data;
   } catch (error) {
@@ -76,7 +76,8 @@ export const getUserComments = async (userId: string): Promise<CommentsResponse>
 export const createComment = async (payload: CreateCommentPayload): Promise<Comment> => {
   try {
     const response = await apiClient.post(API_ROUTES.COMMENT.CREATE, payload);
-    return response.data;
+    // Extract the comment data from the response wrapper
+    return response.data?.data || response.data;
   } catch (error) {
     throw error;
   }
@@ -100,7 +101,7 @@ export const updateComment = async (payload: UpdateCommentPayload): Promise<Comm
 export const deleteComment = async (payload: DeleteCommentPayload): Promise<{ message: string }> => {
   try {
     const response = await apiClient.delete(API_ROUTES.COMMENT.DELETE, {
-      data: payload,
+      params: payload,
     });
     return response.data;
   } catch (error) {

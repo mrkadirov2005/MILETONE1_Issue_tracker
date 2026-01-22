@@ -85,7 +85,7 @@ export const getAllIssues = async (params?: GetAllIssuesParams): Promise<IssuesR
 export const getIssueById = async (issueId: string): Promise<Issue> => {
   try {
     const response = await apiClient.get(API_ROUTES.ISSUE.GET_BY_ID, {
-      headers: { issue_id: issueId },
+      params: { issue_id: issueId },
     });
     // Handle both direct Issue response and wrapped response
     const data = response.data?.data || response.data;
@@ -122,11 +122,8 @@ export interface DeleteIssuePayload {
 export const deleteIssue = async (payload: DeleteIssuePayload): Promise<{ message: string }> => {
   try {
     const response = await apiClient.delete(API_ROUTES.ISSUE.DELETE, {
-      headers: { 'issue_id': payload.issueId },
-      data: {
-        issue_details: payload.issue.issue_details,
-        issue_status: payload.issue.issue_status,
-        issue_priority: payload.issue.issue_priority,
+      params: {
+        issue_id: payload.issueId,
         created_by: payload.issue.created_by,
       },
     });

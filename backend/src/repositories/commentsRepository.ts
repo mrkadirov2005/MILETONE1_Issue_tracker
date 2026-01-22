@@ -13,12 +13,12 @@
 import client from "../config/dbClient.ts";
 
 // create comment repository
-export const createCommentRepository = async (issue_id: string, comment_details: string, user_id: string): Promise<boolean> => {
+export const createCommentRepository = async (issue_id: string, comment_details: string, user_id: string) => {
     const result = await client.query(
-        'INSERT INTO comments (issue_id, comment_details, user_id) VALUES ($1, $2, $3)',
+        'INSERT INTO comments (issue_id, comment_details, user_id) VALUES ($1, $2, $3) RETURNING *',
         [issue_id, comment_details, user_id]
     );
-    return result.rowCount as number > 0;
+    return result.rows[0] || null;
 }
 // get comments by issue id
 export const getCommentsByIssueIdRepository = async (issue_id: string) => {
