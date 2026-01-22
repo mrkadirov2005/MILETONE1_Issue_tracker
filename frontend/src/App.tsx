@@ -2,7 +2,7 @@ import './App.css'
 import AuthComponent from './features/auth/layout/AuthComponent.tsx'
 import DashboardPage from './features/issue/layout/DashboardPage.tsx'
 import LabelManagementPage from './features/label/layout/LabelManagementPage.tsx'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import {HashRouter as BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from './shared/layout/ProtectedRoute.tsx'
 
 
