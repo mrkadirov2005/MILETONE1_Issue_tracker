@@ -4,6 +4,16 @@ A complete issue tracking application with a React-based frontend and a Node.js/
 
 ---
 
+
+**Frontend (Vercel):**
+<!-- live version of frontend connected to backend and fully functioning -->
+- 🔗 https://i-tracker.m-kadirov.uz/ 
+
+<!-- AWS deployed backend -->
+**Backend (AWS):**
+- 🔗 https://shoppos.m-kadirov.uz
+
+
 ## 📋 Table of Contents
 
 - [Project Overview](#project-overview)
@@ -18,7 +28,7 @@ A complete issue tracking application with a React-based frontend and a Node.js/
 
 ## 🎯 Project Overview
 
-This project is part of the **VENTION Internship Program - Milestone 1** and includes:
+This project includes:
 
 - **Issue Tracker API** - RESTful backend with PostgreSQL database
 - **Issue Tracker Frontend** - Modern React application with Material-UI
@@ -61,25 +71,17 @@ A modern, feature-rich issue tracking application built with **React, TypeScript
    npm install
    ```
 
-2. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Configure:
-   ```env
-   VITE_API_BASE_URL=http://localhost:5000
-   ```
-
-3. **Start the development server**
+2. **Start the development server**
    ```bash
    npm run dev
    ```
 
-4. **Open in browser**
+3. **Open in browser**
    ```
    http://localhost:5173
    ```
+
+> **Note:** No .env file configuration is required for the frontend. The API base URL is configured internally.
 
 ### 📁 Frontend Project Structure
 
@@ -108,7 +110,9 @@ frontend/
 npm run dev       # Start development server
 npm run build     # Build for production
 npm run preview   # Preview production build
-npm run lint      # Lint code
+npm run lint   # Lint code
+npm run db_con_checkk     #for checking the DB parameters
+npm run db_setup  # for creating a database and coonnecting and creating the tables
 ```
 
 ---
@@ -154,7 +158,7 @@ A robust Node.js/Express backend API with PostgreSQL database and full TypeScrip
    ```env
    DB_HOST=localhost
    DB_PORT=5432
-   DB_NAME=issue_tracker
+   DB_NAME=postgres    //you own db name because the script will create anotehr database
    DB_USER=your_postgres_user
    DB_PASSWORD=your_postgres_password
    JWT_SECRET=your_jwt_secret_key
@@ -324,21 +328,6 @@ npm run db_setup         # Initialize/setup database schema
 
 ---
 
-## 🌐 Deployment
-
-### Live Application
-
-The application has been deployed and is accessible at:
-
-**Frontend (Vercel):**
-- 🔗 https://i-tracker.m-kadirov.uz/
-
-**Backend (AWS):**
-- 🔗 https://shoppos.m-kadirov.uz
-
-Both services are connected to custom domain `m-kadirov.uz` and are production-ready.
-
----
 
 ## 🔐 Authentication
 
@@ -358,6 +347,24 @@ Both services are connected to custom domain `m-kadirov.uz` and are production-r
 Example: `Password123!`
 
 ---
+
+
+## 🌐 Deployment
+
+### Live Application
+
+The application has been deployed and is accessible at:
+
+**Frontend (Vercel):**
+- 🔗 https://i-tracker.m-kadirov.uz/
+
+**Backend (AWS):**
+- 🔗 https://shoppos.m-kadirov.uz
+
+Both services are connected to custom domain `m-kadirov.uz` and are production-ready.
+
+---
+
 
 ## 🧪 API Testing
 

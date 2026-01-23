@@ -27,8 +27,6 @@ export const useGetAllLabels = () => {
   return useQuery({
     queryKey: LABELS_QUERY_KEY,
     queryFn: () => getAllLabels(),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
   });
 };
 

@@ -25,8 +25,6 @@ export const useGetAllIssues = (params?: GetAllIssuesParams, enabled: boolean = 
   return useQuery({
     queryKey: [...ISSUES_QUERY_KEY, params],
     queryFn: () => getAllIssues(params),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 10 * 60 * 1000, // 10 minutes
     enabled,
   });
 };
@@ -39,8 +37,6 @@ export const useGetIssueById = (issueId: string | null) => {
     queryKey: [...ISSUES_QUERY_KEY, issueId],
     queryFn: () => getIssueById(issueId!),
     enabled: !!issueId, // Only run query if issueId is provided
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
     retry: false, // Don't retry on failure to show error immediately
   });
 };

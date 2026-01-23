@@ -17,13 +17,12 @@ Welcome to the Issue Tracker Frontend documentation. This guide covers everythin
 ```bash
 # Install dependencies
 npm install
-
-# Set up environment variables
-cp .env.example .env.local
-
+# THE API CONSTANTS ARE IN The /shared/api/constats.ts
 # Start development server
 npm run dev
 ```
+
+> **Note:** No .env file configuration is required for the frontend.
 
 ## 📖 Table of Contents by Topic
 

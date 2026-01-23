@@ -37,25 +37,17 @@ A modern, feature-rich issue tracking application built with React, TypeScript, 
    npm install
    ```
 
-2. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
-   
-   Configure the following variable:
-   ```env
-   VITE_API_BASE_URL=http://localhost:5000
-   ```
-
-3. **Start the development server**
+2. **Start the development server**
    ```bash
    npm run dev
    ```
 
-4. **Open in browser**
+3. **Open in browser**
    ```
    http://localhost:5173
    ```
+
+> **Note:** No .env file configuration is required for the frontend. The API base URL is configured internally.
 
 ## 📖 Documentation
 
@@ -143,7 +135,7 @@ Example: `Password123!`
 
 **"Cannot connect to API"**
 - Ensure backend server is running on port 5000
-- Check `VITE_API_BASE_URL` in `.env.local`
+- Check your network connection to localhost
 
 **"401 Unauthorized"**
 - Log out and log in again
