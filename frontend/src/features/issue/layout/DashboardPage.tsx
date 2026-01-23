@@ -18,8 +18,8 @@ import { Logout as LogOutIcon, Dashboard as DashboardIcon, Add as AddIcon, Label
 import { useLogout } from '../../auth/hooks/authHooks';
 import { getUserEmail } from '../../auth/api/authApi';
 import { useNavigate } from 'react-router-dom';
-import CreateIssueComponent from '../components/CreateIssueComponent';
-import IssueListComponent from '../components/IssueListComponent';
+import CreateIssueComponent from '../components/CreateIssue';
+import IssueListComponent from '../components/IssueList';
 
 export default function DashboardPage() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);

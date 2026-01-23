@@ -42,3 +42,11 @@ export const deleteUserById = async (userId: string): Promise<boolean> => {
     );
     return result.rowCount as number > 0;
 }
+
+// Get all users (for assignment purposes)
+export const getAllUsers = async (): Promise<User[]> => {
+    const result = await client.query(
+        'SELECT user_id, user_email, created_at FROM users ORDER BY user_email'
+    );
+    return result.rows;
+}

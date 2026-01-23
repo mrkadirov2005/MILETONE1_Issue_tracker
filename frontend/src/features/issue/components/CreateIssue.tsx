@@ -21,6 +21,7 @@ import {
   FormHelperText,
 } from '@mui/material';
 import { useCreateIssue } from '../services/issueHooks';
+import { useGetAllUsers } from '../../auth/hooks/userHooks';
 import { getUserId } from '../../auth/api/authApi';
 
 interface CreateIssueComponentProps {
@@ -33,6 +34,7 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
     issue_details: '',
     issue_status: 'todo' as const,
     issue_priority: 'medium' as const,
+    assigned_to: '' as string | null,
   });
 
   const [errors, setErrors] = useState({
@@ -40,6 +42,7 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
   });
 
   const createIssueMutation = useCreateIssue();
+  const { data: users = [], isLoading: usersLoading } = useGetAllUsers();
   const userId = getUserId();
 
   const validateForm = () => {
@@ -71,7 +74,7 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value === '' ? null : value,
     }));
   };
 
@@ -85,8 +88,11 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
     }
 
     await createIssueMutation.mutateAsync({
-      ...formData,
+      issue_details: formData.issue_details,
+      issue_status: formData.issue_status,
+      issue_priority: formData.issue_priority,
       created_by: userId,
+      assigned_to: formData.assigned_to || null,
     });
 
     // Reset form and close dialog on success
@@ -100,6 +106,7 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
       issue_details: '',
       issue_status: 'todo',
       issue_priority: 'medium',
+      assigned_to: '' as string | null,
     });
     setErrors({ issue_details: '' });
     onClose();
@@ -159,6 +166,25 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
                 <MenuItem value="high">High</MenuItem>
               </Select>
               <FormHelperText>Set the priority level of the issue</FormHelperText>
+            </FormControl>
+
+            {/* Assigned User Select */}
+            <FormControl fullWidth disabled={createIssueMutation.isPending || usersLoading}>
+              <InputLabel>Assign To (Optional)</InputLabel>
+              <Select
+                name="assigned_to"
+                value={formData.assigned_to || ''}
+                onChange={handleSelectChange}
+                label="Assign To (Optional)"
+              >
+                <MenuItem value="">None</MenuItem>
+                {users.map((user) => (
+                  <MenuItem key={user.user_id} value={user.user_id}>
+                    {user.user_email}
+                  </MenuItem>
+                ))}
+              </Select>
+              <FormHelperText>Optionally assign this issue to a team member</FormHelperText>
             </FormControl>
           </Stack>
         </Box>

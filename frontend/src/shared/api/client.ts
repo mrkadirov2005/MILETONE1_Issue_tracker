@@ -4,10 +4,9 @@
 
 import axios, { type AxiosInstance } from 'axios';
 import { DEFAULT_ENDPOINT, STORAGE_KEYS } from './constants';
+import { showErrorToast } from '../utils/toast';
 
-/**
- * Create API client with default configuration
- */
+
 const createApiClient = (): AxiosInstance => {
   const apiClient = axios.create({
     baseURL: DEFAULT_ENDPOINT,
@@ -16,9 +15,7 @@ const createApiClient = (): AxiosInstance => {
     },
   });
 
-  /**
-   * Request interceptor - Add JWT token to all requests
-   */
+  
   apiClient.interceptors.request.use(
     (config) => {
       const token = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
@@ -32,9 +29,7 @@ const createApiClient = (): AxiosInstance => {
     }
   );
 
-  /**
-   * Response interceptor - Handle token expiration and errors
-   */
+  
   apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -48,6 +43,12 @@ const createApiClient = (): AxiosInstance => {
         // Dispatch logout action or redirect - can be handled by Redux/Context
         window.location.href = '/login';
       }
+      
+      // Handle 500 server errors
+      if (error.response?.status === 500) {
+        showErrorToast('⚠️ Backend server error. Please try again later.');
+      }
+      
       return Promise.reject(error);
     }
   );

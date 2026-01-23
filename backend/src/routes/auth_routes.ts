@@ -62,10 +62,28 @@
  *         description: Invalid credentials
  */
 
+/**
+ * @swagger
+ * /auth/users:
+ *   get:
+ *     summary: Get all users (for assignment purposes)
+ *     tags:
+ *       - Authentication
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all users
+ *       401:
+ *         description: Unauthorized
+ */
+
 import {Router} from "express";
 const router=Router();
-import { loginUser, registerUser } from "../controllers/authControllers.ts";
+import { loginUser, registerUser, getAllUsersController } from "../controllers/authControllers.ts";
+
 router.post('/register',registerUser);
 router.post('/login',loginUser);
+router.get('/users', getAllUsersController);
 
 export default router;

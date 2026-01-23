@@ -33,7 +33,8 @@ export interface Issue{
     issue_priority:'low' | 'medium' | 'high',
     created_at:Date,
     updated_at:Date,
-    created_by:string
+    created_by:string,
+    assigned_to?:string | null
 
 }
 
@@ -59,7 +60,8 @@ export interface CreateIssueRequestBody{
     issue_details:string,
     issue_status:IssueStatus,
     issue_priority:IssuePriority,
-    created_by:string
+    created_by:string,
+    assigned_to?:string | null
 }
 export interface Comments{
     comment_id:string,

@@ -1,13 +1,5 @@
 import client from "../config/dbClient.ts";
-//  db schema
-// CREATE TABLE labels (
-//     label_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-//     label_name VARCHAR(50) NOT NULL,
-//     user_id UUID NOT NULL,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     CONSTRAINT fk_labels_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
-//     CONSTRAINT unique_label_per_user UNIQUE (label_name, user_id)
-// );
+
 
 export const createLabelRepository=async(labelName:string,user_id:string):Promise<boolean>=>{
     try {

@@ -38,7 +38,9 @@ CREATE TABLE issues (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     created_by UUID NOT NULL,
+    assigned_to UUID,
     CONSTRAINT fk_issues_user FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE,
+    CONSTRAINT fk_issues_assigned_user FOREIGN KEY (assigned_to) REFERENCES users(user_id) ON DELETE SET NULL,
     CONSTRAINT chk_issue_status CHECK (issue_status IN ('todo', 'in-progress', 'done', 'cancelled')),
     CONSTRAINT chk_issue_priority CHECK (issue_priority IN ('low', 'medium', 'high'))
 );

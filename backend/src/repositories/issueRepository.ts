@@ -1,16 +1,4 @@
 import client from "../config/dbClient.ts";
-// all CRUD of the issues will be handled here
-// db sample
-// issue_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-//     issue_details TEXT NOT NULL,
-//     issue_status VARCHAR(20) NOT NULL,
-//     issue_priority VARCHAR(20) NOT NULL,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     created_by UUID NOT NULL,
-//     CONSTRAINT fk_issues_user FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE,
-//     CONSTRAINT chk_issue_status CHECK (issue_status IN ('todo', 'in-progress', 'done', 'cancelled')),
-//     CONSTRAINT chk_issue_priority CHECK (issue_priority IN ('low', 'medium', 'high'))
 
 export const getAllIssuesRepository = async (limit: number = 10, offset: number = 0) => {
     const query = `
@@ -37,9 +25,12 @@ export const getAllIssuesWithLabelsRepository = async (limit: number = 10, offse
                 i.created_at,
                 i.updated_at,
                 i.created_by,
+                i.assigned_to,
+                u.user_email as assignee_email,
                 l.label_id,
                 l.label_name
             FROM issues i
+            LEFT JOIN users u ON i.assigned_to = u.user_id
             LEFT JOIN issue_labels il ON i.issue_id = il.issue_id
             LEFT JOIN labels l ON il.label_id = l.label_id
             WHERE i.issue_id IN (
@@ -63,9 +54,12 @@ export const getAllIssuesWithLabelsRepository = async (limit: number = 10, offse
                 i.created_at,
                 i.updated_at,
                 i.created_by,
+                i.assigned_to,
+                u.user_email as assignee_email,
                 l.label_id,
                 l.label_name
             FROM issues i
+            LEFT JOIN users u ON i.assigned_to = u.user_id
             LEFT JOIN issue_labels il ON i.issue_id = il.issue_id
             LEFT JOIN labels l ON il.label_id = l.label_id
             WHERE i.issue_id IN (
@@ -82,7 +76,39 @@ export const getAllIssuesWithLabelsRepository = async (limit: number = 10, offse
     }
 
     const result = await client.query(query, values);
-    return result.rows;
+    
+    // Aggregate results - group issues and their labels
+    const issuesMap = new Map<string, any>();
+    
+    for (const row of result.rows) {
+        if (!issuesMap.has(row.issue_id)) {
+            issuesMap.set(row.issue_id, {
+                issue_id: row.issue_id,
+                issue_details: row.issue_details,
+                issue_status: row.issue_status,
+                issue_priority: row.issue_priority,
+                created_at: row.created_at,
+                updated_at: row.updated_at,
+                created_by: row.created_by,
+                assigned_to: row.assignee_email || row.assigned_to,
+                labels: []
+            });
+        }
+        
+        // Add label if it exists
+        if (row.label_id !== null) {
+            const issue = issuesMap.get(row.issue_id);
+            // Avoid duplicate labels
+            if (!issue.labels.find((l: any) => l.label_id === row.label_id)) {
+                issue.labels.push({
+                    label_id: row.label_id,
+                    label_name: row.label_name
+                });
+            }
+        }
+    }
+    
+    return Array.from(issuesMap.values());
 }
 
 export const getTotalIssuesCountRepository = async () => {
@@ -90,24 +116,24 @@ export const getTotalIssuesCountRepository = async () => {
     const result = await client.query(query);
     return parseInt(result.rows[0].total);
 }
-export const createIssueRepository = async (issue_details:string, issue_status:string, issue_priority:string, created_by:string) => {
+export const createIssueRepository = async (issue_details:string, issue_status:string, issue_priority:string, created_by:string, assigned_to?: string | null) => {
     // validate the input fields
     if(!issue_details || !issue_status || !issue_priority || !created_by) {
         throw new Error("All fields must be provided and valid data");
     }
     // insert the issue into the database
     const query = `
-        INSERT INTO issues (issue_details, issue_status, issue_priority, created_by)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO issues (issue_details, issue_status, issue_priority, created_by, assigned_to)
+        VALUES ($1, $2, $3, $4, $5)
         RETURNING *;
     `;
-    const values = [issue_details, issue_status, issue_priority, created_by];
+    const values = [issue_details, issue_status, issue_priority, created_by, assigned_to || null];
     const result = await client.query(query, values);
     return result.rows[0];
 }
 // function to get issue by id
 export const getIssueByIdRepository = async (issueId: string) => {
-    // Get the issue with its associated labels
+    // Get the issue with its associated labels and assignee email
     const query = `
         SELECT 
             i.issue_id,
@@ -117,9 +143,12 @@ export const getIssueByIdRepository = async (issueId: string) => {
             i.created_at,
             i.updated_at,
             i.created_by,
+            i.assigned_to,
+            u.user_email as assignee_email,
             l.label_id,
             l.label_name
         FROM issues i
+        LEFT JOIN users u ON i.assigned_to = u.user_id
         LEFT JOIN issue_labels il ON i.issue_id = il.issue_id
         LEFT JOIN labels l ON il.label_id = l.label_id
         WHERE i.issue_id = $1
@@ -141,6 +170,7 @@ export const getIssueByIdRepository = async (issueId: string) => {
         created_at: result.rows[0].created_at,
         updated_at: result.rows[0].updated_at,
         created_by: result.rows[0].created_by,
+        assigned_to: result.rows[0].assignee_email || result.rows[0].assigned_to,
         labels: result.rows
             .filter((row: any) => row.label_id !== null)
             .map((row: any) => ({
@@ -153,7 +183,7 @@ export const getIssueByIdRepository = async (issueId: string) => {
 }
 
 // function to update issue by id
-export const updateIssueByIdRepository = async (issueId: string, issue_details:string, issue_status:string, issue_priority:string,created_by:string) => {
+export const updateIssueByIdRepository = async (issueId: string, issue_details:string, issue_status:string, issue_priority:string, created_by:string, assigned_to?: string | null) => {
     // first check is the issue actaully belong to the user requesting
     const getIssueQuery = `
         SELECT * FROM issues WHERE issue_id = $1;
@@ -173,11 +203,13 @@ export const updateIssueByIdRepository = async (issueId: string, issue_details:s
         SET issue_details = COALESCE($1, issue_details),
             issue_status = COALESCE($2, issue_status),
             issue_priority = COALESCE($3, issue_priority),
+            assigned_to = CASE WHEN $5::boolean THEN $6::uuid ELSE assigned_to END,
             updated_at = CURRENT_TIMESTAMP
         WHERE issue_id = $4
         RETURNING *;
     `;
-    const values = [issue_details, issue_status, issue_priority, issueId];
+    const hasAssignedTo = assigned_to !== undefined && assigned_to !== null;
+    const values = [issue_details, issue_status, issue_priority, issueId, hasAssignedTo, assigned_to || null];
     const result = await client.query(query, values);
     return result.rows[0];
 }
@@ -228,7 +260,8 @@ export const getIssuesByLabel=async(label_name:string)=>{
             i.issue_priority,
             i.created_at,
             i.updated_at,
-            i.created_by
+            i.created_by,
+            i.assigned_to
         FROM issues i
         JOIN issue_labels il ON i.issue_id = il.issue_id
         WHERE il.label_id = $1;

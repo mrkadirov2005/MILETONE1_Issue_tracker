@@ -1,8 +1,3 @@
-/**
- * ProtectedRoute Component
- * Protects routes from unauthorized access
- * Checks token validity before allowing access
- */
 
 import { Navigate } from 'react-router-dom';
 import { CircularProgress, Box } from '@mui/material';
@@ -14,10 +9,8 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  // Check if token exists in localStorage
   const token = getAuthToken();
 
-  // If no token, redirect to login immediately
   if (!token) {
     return <Navigate to="/login" replace />;
   }
@@ -25,7 +18,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   // Verify token with backend
   const { isLoading, isError } = useVerifyToken();
 
-  // Show loading spinner while verifying token
   if (isLoading) {
     return (
       <Box
@@ -41,9 +33,7 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
     );
   }
 
-  // If token verification failed, redirect to login
   if (isError) {
-    // Clear invalid token
     localStorage.removeItem('authToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('userId');

@@ -1,15 +1,4 @@
-// the repository for managing th CRUD on comments
-// db sample
 
-// CREATE TABLE comments (
-//     comment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-//     issue_id UUID NOT NULL,
-//     comment_details TEXT NOT NULL,
-//     user_id UUID NOT NULL,
-//     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-//     CONSTRAINT fk_comments_issue FOREIGN KEY (issue_id) REFERENCES issues(issue_id) ON DELETE CASCADE,
-//     CONSTRAINT fk_comments_user FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-// );
 import client from "../config/dbClient.ts";
 
 // create comment repository

@@ -19,6 +19,7 @@ export interface Issue {
   created_by: string;
   created_at: string;
   updated_at: string;
+  assigned_to?: string | null;
   labels?: IssueLabel[];
 }
 
@@ -27,6 +28,7 @@ export interface CreateIssuePayload {
   issue_status: 'todo' | 'in-progress' | 'done' | 'cancelled';
   issue_priority: 'low' | 'medium' | 'high';
   created_by: string;
+  assigned_to?: string | null;
 }
 
 export interface UpdateIssuePayload {
@@ -35,6 +37,7 @@ export interface UpdateIssuePayload {
   issue_status?: 'todo' | 'in-progress' | 'done' | 'cancelled';
   issue_priority?: 'low' | 'medium' | 'high';
   created_by: string;
+  assigned_to?: string | null;
 }
 
 export interface GetAllIssuesParams {

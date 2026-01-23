@@ -95,9 +95,47 @@ Obtain a token by logging in via the `/auth/login` endpoint.
 
 ---
 
+### 3. Get All Users (for Assignment)
+**Endpoint:** `GET /auth/users`
+
+**Authentication:** Required ✅
+
+**Description:** Get list of all users for assigning issues. Returns user ID and email for frontend user selection dropdowns.
+
+**Example Request:**
+```
+GET http://localhost:5000/auth/users
+Authorization: Bearer <jwt_token>
+```
+
+**Response (200 OK):**
+```json
+[
+  {
+    "user_id": "550e8400-e29b-41d4-a716-446655440000",
+    "user_email": "john@example.com",
+    "created_at": "2026-01-15T09:00:00Z"
+  },
+  {
+    "user_id": "550e8400-e29b-41d4-a716-446655440001",
+    "user_email": "jane@example.com",
+    "created_at": "2026-01-16T10:30:00Z"
+  }
+]
+```
+
+**Error (401 Unauthorized):**
+```json
+{
+  "error": "Unauthorized"
+}
+```
+
+---
+
 ## Issue Endpoints
 
-### 3. Create Issue
+### 4. Create Issue
 **Endpoint:** `POST /issue/add`
 
 **Authentication:** Required ✅
@@ -165,6 +203,7 @@ Authorization: Bearer <token>
   "issue_status": "todo",
   "issue_priority": "high",
   "created_by": "550e8400-e29b-41d4-a716-446655440000",
+  "assigned_to": "jane@example.com",
   "created_at": "2026-01-23T10:30:00Z",
   "updated_at": "2026-01-23T10:30:00Z",
   "labels": [
@@ -215,6 +254,7 @@ GET /issue/all?limit=10&page=1&status=todo&priority=high&label=Bug
       "issue_status": "todo",
       "issue_priority": "high",
       "created_by": "550e8400-e29b-41d4-a716-446655440000",
+      "assigned_to": "jane@example.com",
       "created_at": "2026-01-23T10:30:00Z",
       "updated_at": "2026-01-23T10:30:00Z",
       "labels": [

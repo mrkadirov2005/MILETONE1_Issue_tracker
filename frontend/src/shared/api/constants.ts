@@ -2,8 +2,10 @@
  * API Configuration Constants
  */
 
-const PORT = 5000;
-export const DEFAULT_ENDPOINT = `http://localhost:${PORT}`;
+// const PORT = 5000;
+export const DEFAULT_ENDPOINT = `https://shoppos.m-kadirov.uz`;
+// export const DEFAULT_ENDPOINT = `http://localhost:5000`;
+
 
 export const API_ROUTES = {
   // Auth endpoints
