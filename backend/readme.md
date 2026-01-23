@@ -20,7 +20,7 @@ Fill the contents of the `.env` file with your DB configuration, especially `DB_
 ```env
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=issue_tracker
+DB_NAME=postgres //existing database name should be entered , it will not create tables inside itit will create another database called issue_tracker
 DB_USER=your_postgres_user
 DB_PASSWORD=your_postgres_password
 JWT_SECRET=your_jwt_secret_key

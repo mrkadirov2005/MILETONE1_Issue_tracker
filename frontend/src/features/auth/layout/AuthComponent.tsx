@@ -41,7 +41,6 @@ export default function AuthComponent() {
     }
 
     const isValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
 
     if (!isValid) {
       setValidationError('Please enter a valid email address');
@@ -49,10 +48,14 @@ export default function AuthComponent() {
       return;
     }
 
-    if (!isPasswordValid) {
-      setValidationError('Password must be at least 6 characters long and contain at least one number and one special character');
-      showWarningToast("Weak Password: at least 6 characters are expected with symbols and numbers")
-      return;
+    // Only validate password strength for registration, not for login
+    if (!isLogin) {
+      const isPasswordValid = validatePassword(password);
+      if (!isPasswordValid) {
+        setValidationError('Password must be at least 6 characters long and contain at least one number and one special character');
+        showWarningToast("Weak Password: at least 6 characters are expected with symbols and numbers")
+        return;
+      }
     }
 
     try {

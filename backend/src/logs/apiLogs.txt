@@ -1570,3 +1570,5 @@
 2026-01-23T12:35:33.972Z - GET /token/verify
 2026-01-23T12:35:34.055Z - GET /issue/all?page=1&limit=10
 2026-01-23T12:35:34.286Z - GET /label/all
+2026-01-23T12:48:17.086Z - POST /auth/login
+2026-01-23T12:48:18.213Z - POST /auth/login
