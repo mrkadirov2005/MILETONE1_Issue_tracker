@@ -3,7 +3,7 @@
  */
 
 import { useQuery } from '@tanstack/react-query';
-import { getAllUsers, type UserOption } from '../api/userApi';
+import { getAllUsers } from '../api/userApi';
 
 const USERS_QUERY_KEY = ['users'];
 
