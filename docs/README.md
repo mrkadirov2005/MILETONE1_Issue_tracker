@@ -10,6 +10,7 @@ A complete issue tracking application with a React-based frontend and a Node.js/
 - [Frontend](#frontend)
 - [Backend](#backend)
 - [Getting Started](#getting-started)
+- [Deployment](#deployment)
 - [Technology Stack](#technology-stack)
 - [Documentation](#documentation)
 
@@ -320,6 +321,22 @@ npm run db_setup         # Initialize/setup database schema
    - Frontend: http://localhost:5173
    - Backend API: http://localhost:5000
    - API Documentation: http://localhost:5000/api-docs
+
+---
+
+## 🌐 Deployment
+
+### Live Application
+
+The application has been deployed and is accessible at:
+
+**Frontend (Vercel):**
+- 🔗 https://i-tracker.m-kadirov.uz/
+
+**Backend (AWS):**
+- 🔗 https://shoppos.m-kadirov.uz
+
+Both services are connected to custom domain `m-kadirov.uz` and are production-ready.
 
 ---
 
