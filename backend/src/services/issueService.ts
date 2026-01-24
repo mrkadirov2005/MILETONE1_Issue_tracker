@@ -28,7 +28,6 @@ return isIssueCreated;
 }
 
 export const getIssueByIdService=async(req:Request)=>{
- console.log(req.query);
     
     const issueId=req.query.issue_id as never as string;
     const issueData=await getIssueByIdRepository(issueId);
@@ -62,7 +61,6 @@ export const getAllIssuesService=async(req:Request)=>{
     const issuePriority= (req.query.priority as string) || '';
     const label_id = (req.query.label as string) || '';
 
-   console.log(label_id)
 
     const issuesWithLabelsRows = await getAllIssuesWithLabelsRepository(limit, offset, search, issueStatus, issuePriority, label_id);
     const total = await getTotalIssuesCountRepository();
@@ -72,7 +70,6 @@ export const getAllIssuesService=async(req:Request)=>{
 
 
 export const deleteIssueService=async(req:Request)=>{
-console.log(req.query); 
     // proceed with checking the issue id in params using the function of paramsValidator
     const issueId=req.query.issue_id as never as string;
     const created_by=req.query.created_by as never as string;
@@ -83,7 +80,6 @@ console.log(req.query);
 
    
     if(!created_by){
-        console.log("created_by is missing",created_by);
         throw new Error("User ID is required to delete the issue");
     }
     const isIssueDeleted=await deleteIssueByIdRepository(issueId,created_by);

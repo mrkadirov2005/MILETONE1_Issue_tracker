@@ -26,7 +26,6 @@ export const updateLabelService=async(req: Request)=>{
         throw new Error("User ID is required in headers");
     }
     const { label_id, label_name } = req.body as { label_id: string, label_name: string };
-    console.log(label_id,label_name)
     if(!label_id || !label_name){
         throw new Error("Label ID and Label name are required");
     }

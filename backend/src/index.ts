@@ -53,6 +53,5 @@ app.use('/token',tokenRoutes)
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-  console.log('Database:', dbConfig ? 'Connected' : 'Connecting...');
+// console.log for development
 });

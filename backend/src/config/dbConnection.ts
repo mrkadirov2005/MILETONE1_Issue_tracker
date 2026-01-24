@@ -13,12 +13,15 @@ const dbConfig = new Pool({
 });
 
 // Connection pool event handlers
+// for development
 dbConfig.on('error', (err: Error) => {
-  console.error('Unexpected error on idle client', err);
+  // console.error('Unexpected error on idle client', err);
 });
 
+// for development
 dbConfig.on('connect', () => {
-  console.log('Pool: New client connection established');
+  // console.log('Pool: New client connection established');
+
 });
 
 

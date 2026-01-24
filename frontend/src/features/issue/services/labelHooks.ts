@@ -39,7 +39,6 @@ export const useCreateLabel = () => {
     mutationFn: (payload: CreateLabelPayload) => createLabel(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: LABELS_QUERY_KEY });
-      console.log('Label created successfully');
     },
     onError: (error: Error) => {
       console.error('Failed to create label:', error.message);
@@ -57,10 +56,10 @@ export const useUpdateLabel = () => {
     mutationFn: (payload: UpdateLabelPayload) => updateLabel(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: LABELS_QUERY_KEY });
-      console.log('Label updated successfully');
     },
     onError: (error: Error) => {
-      console.error('Failed to update label:', error.message);
+      // show the toast message her
+console.error('Failed to update label:', error.message);
     },
   });
 };
@@ -75,7 +74,6 @@ export const useDeleteLabel = () => {
     mutationFn: (labelId: string) => deleteLabel(labelId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: LABELS_QUERY_KEY });
-      console.log('Label deleted successfully');
     },
     onError: (error: Error) => {
       console.error('Failed to delete label:', error.message);
@@ -94,7 +92,6 @@ export const useAssignLabelToIssue = () => {
     onSuccess: (_,) => {
       // Invalidate issues to trigger refetch
       queryClient.invalidateQueries({ queryKey: ['issues'] });
-      console.log('Label assigned to issue successfully');
     },
     onError: (error: Error) => {
       console.error('Failed to assign label:', error.message);

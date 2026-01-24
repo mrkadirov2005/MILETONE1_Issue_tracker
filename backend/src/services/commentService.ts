@@ -15,7 +15,6 @@ export const createCommentService=async(req: Request)=>{
 }
 
 export const getCommentsByIssueIdService=async(req: Request)=>{ 
-    console.log(req.query);
     const issue_id = req.query.issue_id as never as { issue_id: string };
     if(!issue_id){
         throw new Error("Issue ID is required");
@@ -26,8 +25,6 @@ export const getCommentsByIssueIdService=async(req: Request)=>{
 export const updateCommentService=async(req: Request)=>{
     const { comment_id , comment_details, user_id } = req.body as UpdateCommentRequestBody;
     if(!comment_id || !comment_details || !user_id){
-        console.log(req.body)
-        console.log("comment_id:", comment_id, "comment_details:", comment_details, "user_id:", user_id)
         throw new Error("Comment ID, Comment details and User ID are required");
     }
     const isUpdated= await updateCommentByIdRepository(comment_id, comment_details, user_id);

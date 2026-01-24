@@ -65,7 +65,6 @@ export const createLabel = async (payload: CreateLabelPayload): Promise<Label> =
     const response = await apiClient.post(API_ROUTES.LABEL.CREATE, payload);
     // Handle both direct response and wrapped response
     const data = response.data?.data || response.data;
-    console.log('Create label response:', data);
     return data;
   } catch (error) {
     console.error('Error creating label:', error);

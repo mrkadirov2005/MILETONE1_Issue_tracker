@@ -63,7 +63,6 @@ export const loginUser = async (
       user_password: password,
     });
 
-    console.log('Login response:', response.data);
 
     // Handle both direct response and wrapped response
     const data = (response.data?.data || response.data) as AuthResponse;
@@ -81,13 +80,8 @@ export const loginUser = async (
     localStorage.setItem(STORAGE_KEYS.USER_EMAIL, data.user.user_email);
 
     // Verify tokens were actually saved
-    const savedToken = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
-    console.log('Token saved to localStorage:', !!savedToken);
-    console.log('Stored values:', {
-      authToken: localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN),
-      userId: localStorage.getItem(STORAGE_KEYS.USER_ID),
-      userEmail: localStorage.getItem(STORAGE_KEYS.USER_EMAIL),
-    });
+    // const savedToken = localStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
+    
 
     return data;
   } catch (error) {
