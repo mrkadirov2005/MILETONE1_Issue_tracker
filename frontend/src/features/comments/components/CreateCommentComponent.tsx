@@ -46,7 +46,6 @@ export default function CreateCommentComponent({ issueId }: CreateCommentCompone
         comment_details: commentText.trim(),
         user_id: userId,
       });
-      toast.success('Comment added successfully');
       setCommentText('');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to add comment');
