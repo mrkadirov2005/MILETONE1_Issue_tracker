@@ -61,7 +61,6 @@ export default function EditCommentComponent({
         comment_details: commentText.trim(),
         user_id: userId,
       });
-      toast.success('Comment updated successfully');
       onClose();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to update comment');
