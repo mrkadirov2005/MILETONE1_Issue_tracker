@@ -51,7 +51,7 @@ export const deleteLabelRepository=async (user_id:string,label_id:string)=>{
     
     // if label doesn't exist, throw error
     if (isExistingLabel.rowCount === 0) {
-        throw new Error('Label not found');
+        throw new Error('Only creator of this label can delete it');
     }
     
     // delete the label

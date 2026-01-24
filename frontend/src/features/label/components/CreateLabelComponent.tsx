@@ -43,7 +43,7 @@ export default function CreateLabelComponent({ open, onClose }: CreateLabelCompo
         label_name: labelName.trim(),
         user_id: userId,
       });
-      toast.success('Label created successfully');
+     
       setLabelName('');
       onClose();
     } catch (error) {

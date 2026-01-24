@@ -41,7 +41,6 @@ export const useCreateLabel = () => {
     onSuccess: () => {
       // Invalidate labels list to trigger refetch
       queryClient.invalidateQueries({ queryKey: LABELS_QUERY_KEY });
-      handleApiSuccess('Label created successfully');
     },
     onError: (error: Error) => {
       handleApiError(error, 'Failed to create label');

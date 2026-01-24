@@ -52,7 +52,6 @@ export default function EditLabelComponent({ open, label, onClose }: EditLabelCo
         label_name: labelName.trim(),
         user_id: userId,
       });
-      toast.success('Label updated successfully');
       onClose();
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to update label');
