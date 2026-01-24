@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Chip, Paper, Button, Card } from '@mui/material';
+import { Box, Stack, Typography, Chip, Paper, Button } from '@mui/material';
 import IssueLabelComponent from './IssueLabel';
 
 interface IssueDetailsSidebarProps {
