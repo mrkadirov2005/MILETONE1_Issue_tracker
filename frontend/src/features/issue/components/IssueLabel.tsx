@@ -62,7 +62,7 @@ export default function IssueLabelComponent({ issueId, issueLabels = [] }: Issue
       });
       setAssignedLabels([...assignedLabels, selectedLabelId]);
       setSelectedLabelId('');
-      toast.success('Label assigned successfully');
+      // toast.success('Label assigned successfully');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to assign label');
     }
