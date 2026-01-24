@@ -16,7 +16,7 @@ import { logIncomingRequest } from './middlewares/log/logComingRoutes.ts';
 import { tokenVerifier } from './middlewares/tokenVerifyMiddleware.ts';
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 3000;
 
 // Middleware
 app.use(cors()); // Enable CORS for all domains
