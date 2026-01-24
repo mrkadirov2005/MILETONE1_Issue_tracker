@@ -2,7 +2,6 @@ import express from 'express';
 import type { Request, Response } from 'express';
 import cors from 'cors';
 import swaggerUi from 'swagger-ui-express';
-import dbConfig from './config/dbConnection.ts';
 import swaggerSpec from './config/swagger.ts';
 
 // import the route files

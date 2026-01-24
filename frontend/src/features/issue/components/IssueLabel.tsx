@@ -75,7 +75,6 @@ export default function IssueLabelComponent({ issueId, issueLabels = [] }: Issue
         label_id: labelId,
       });
       setAssignedLabels(assignedLabels.filter(id => id !== labelId));
-      toast.success('Label removed successfully');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to remove label');
     }
