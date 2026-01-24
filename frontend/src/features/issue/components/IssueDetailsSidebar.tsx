@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, Chip, Paper, Button } from '@mui/material';
+import { Box, Stack, Typography, Chip, Paper, Button, Card } from '@mui/material';
 import IssueLabelComponent from './IssueLabel';
 
 interface IssueDetailsSidebarProps {
@@ -8,6 +8,7 @@ interface IssueDetailsSidebarProps {
     issue_priority: string;
     created_at: string;
     assigned_to?: string | null;
+    issue_details: string;
   };
   showLabels: boolean;
   issueId: string;
@@ -47,6 +48,45 @@ export default function IssueDetailsSidebar({
       >
         📋 Labels & Details
       </Typography>
+      <Paper>
+        {/* Issue Details Section */}
+        <Box
+          sx={{
+            p: 2.5,
+            mb: 2,
+            bgcolor: 'white',
+            borderRadius: '10px',
+            boxShadow: '0 1px 4px rgba(0, 0, 0, 0.06)',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+          }}
+        >
+          <Typography
+            variant="caption"
+            sx={{
+              fontWeight: 700,
+              display: 'block',
+              mb: 1.5,
+              color: '#1a1a1a',
+              fontSize: '0.8rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+            }}
+          >
+            Issue Details
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: '0.875rem',
+              color: '#333333',
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word',
+            }}
+          >
+            {issue.issue_details || 'No details provided for this issue.'}
+          </Typography>
+        </Box>
+      </Paper>
 
       {/* Labels Section */}
       <Paper
@@ -59,6 +99,9 @@ export default function IssueDetailsSidebar({
           border: '1px solid rgba(0, 0, 0, 0.06)',
         }}
       >
+        {/*view issue details here for the user to read it */}
+
+       
         <Typography
           variant="caption"
           sx={{

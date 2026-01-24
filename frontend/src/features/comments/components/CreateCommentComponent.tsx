@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useCreateComment } from '../services/commentHooks';
 import { getUserId } from '../../auth/api/authApi';
 import { toast } from 'react-toastify';
+import { showWordLimitToast } from '../../../shared/utils/toast';
 
 interface CreateCommentComponentProps {
   issueId: string;
@@ -25,6 +26,10 @@ export default function CreateCommentComponent({ issueId }: CreateCommentCompone
   const userId = getUserId();
 
   const handleSubmit = async () => {
+    if(commentText.length>500){
+      showWordLimitToast("Comment cannot exceed 500 characters");
+      return;
+    }
     if (!commentText.trim()) {
       toast.error('Comment cannot be empty');
       return;

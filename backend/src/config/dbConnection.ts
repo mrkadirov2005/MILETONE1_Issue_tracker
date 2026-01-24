@@ -12,16 +12,19 @@ const dbConfig = new Pool({
   connectionTimeoutMillis: 2000, // Connection timeout
 });
 
-// Connection pool event handlers
-// for development
+// Connection pool event handlers with reconnection logic
 dbConfig.on('error', (err: Error) => {
-  // console.error('Unexpected error on idle client', err);
+  console.error('❌ Unexpected error on idle client:', err);
+  // Pool will automatically attempt to reconnect
+}); 
+
+dbConfig.on('connect', () => {
+  console.log('✅ Pool: New client connection established');
 });
 
-// for development
-dbConfig.on('connect', () => {
-  // console.log('Pool: New client connection established');
-
+// Handle connection errors and attempt recovery
+dbConfig.on('error', (err: Error) => {
+  console.error('❌ Database pool error:', err);
 });
 
 
@@ -31,9 +34,24 @@ dbConfig.query('SELECT NOW()')
   .then(() => console.log('✅ Database pool connected successfully'))
   .catch((err: Error) => console.error('❌ Database pool connection error:', err," \n ❌Please check your .env configuration"));
 
-// Query helper function
+// Query helper function with error handling
 export const query = (text: string, params?: unknown[]) => {
-  return dbConfig.query(text, params);
+  return dbConfig.query(text, params).catch((err: Error) => {
+    console.error('❌ Query error:', err);
+    throw err; // Re-throw to let the caller handle it
+  });
+};
+
+// Connection health check
+export const checkConnection = async () => {
+  try {
+    await dbConfig.query('SELECT NOW()');
+    console.log('✅ Database connection healthy');
+    return true;
+  } catch (err) {
+    console.error('❌ Database connection check failed:', err);
+    return false;
+  }
 };
 
 export default dbConfig;

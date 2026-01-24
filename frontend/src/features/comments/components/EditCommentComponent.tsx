@@ -17,6 +17,7 @@ import { useUpdateComment } from '../services/commentHooks';
 import { getUserId } from '../../auth/api/authApi';
 import { toast } from 'react-toastify';
 import type { Comment } from '../api/commentsApi';
+import { showWordLimitToast } from '../../../shared/utils/toast';
 
 interface EditCommentComponentProps {
   open: boolean;
@@ -40,6 +41,10 @@ export default function EditCommentComponent({
   }, [open, comment]);
 
   const handleSubmit = async () => {
+    if(commentText.length>500){
+      showWordLimitToast("Comment cannot exceed 500 characters");
+      return;
+    }
     if (!commentText.trim()) {
       toast.error('Comment cannot be empty');
       return;
@@ -75,6 +80,8 @@ export default function EditCommentComponent({
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
             disabled={updateComment.isPending}
+            inputProps={{ maxLength: 500 }}
+            helperText={`${commentText.length}/500 characters`}
           />
         </Box>
       </DialogContent>

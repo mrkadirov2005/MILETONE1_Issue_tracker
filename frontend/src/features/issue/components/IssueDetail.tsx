@@ -19,6 +19,7 @@ import CommentListComponent from '../../comments/components/CommentListComponent
 import IssueDetailHeader from './IssueDetailHeader';
 import IssueEditForm from './IssueEditForm';
 import IssueDetailsSidebar from './IssueDetailsSidebar';
+import { showWordLimitToast } from '../../../shared/utils/toast';
 
 interface IssueDetailComponentProps {
   open: boolean;
@@ -76,7 +77,13 @@ export default function IssueDetailComponent({ open, issueId, onClose }: IssueDe
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
+    // handle show word limit toast here
+    
     const { name, value } = e.target;
+    if((value as string).length > 500){
+      showWordLimitToast("Issue details cannot exceed 500 characters");
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [name as string]: value,
