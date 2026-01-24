@@ -8,20 +8,20 @@ import App from './App.tsx'
 import queryClient from './shared/query/reactQuerySetup.ts';
 // query client is setup in file : frontend/src/shared/query/reactQuerySetup.ts
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+  <QueryClientProvider client={queryClient}>
+    <ToastContainer
+      position="top-right"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={true}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+    />
+    <StrictMode>
       <App />
-    </QueryClientProvider>
-  </StrictMode>,
+    </StrictMode>
+  </QueryClientProvider>,
 )

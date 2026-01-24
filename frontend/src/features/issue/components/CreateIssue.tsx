@@ -23,6 +23,7 @@ import {
 import { useCreateIssue } from '../services/issueHooks';
 import { useGetAllUsers } from '../../auth/hooks/userHooks';
 import { getUserId } from '../../auth/api/authApi';
+import { showWordLimitToast } from '../../../shared/utils/toast';
 
 interface CreateIssueComponentProps {
   open: boolean;
@@ -60,6 +61,12 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | { name?: string; value: unknown }>) => {
     const { name, value } = e.target;
+    // handle the charachter limit here for issue details
+    if(name === 'issue_details' && (value as string).length > 500){
+      // Show a toast notification if the character limit is exceeded
+      showWordLimitToast("Issue details cannot exceed 500 characters");
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [name as string]: value,
@@ -129,9 +136,11 @@ export default function CreateIssueComponent({ open, onClose }: CreateIssueCompo
               value={formData.issue_details}
               onChange={handleInputChange}
               placeholder="Describe the issue..."
+              // TODO: add word count limit
+
               error={!!errors.issue_details}
               helperText={errors.issue_details || `${formData.issue_details.length}/500`}
-              disabled={createIssueMutation.isPending}
+              disabled={createIssueMutation.isPending }
               variant="outlined"
             />
 

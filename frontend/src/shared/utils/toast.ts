@@ -11,7 +11,9 @@ const defaultOptions: ToastOptions = {
   draggable: true,
 };
 
-
+export const showWordLimitToast = (message: string, options?: ToastOptions) => {
+  toast.info(message, { ...defaultOptions, ...options });
+}
 export const showSuccessToast = (message: string, options?: ToastOptions) => {
   toast.success(message, { ...defaultOptions, ...options });
 };
